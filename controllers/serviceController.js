@@ -1,5 +1,4 @@
 const { LanguageServiceClient } = require('@google-cloud/language');
-
 const client = new LanguageServiceClient();
 
 exports.analyzeText = async function(text) {
@@ -12,11 +11,16 @@ exports.analyzeText = async function(text) {
     const result = await client.analyzeEntities({ document: document });
     const sentimentResult = await client.analyzeSentiment({ document: document });
     const summaryResult = await client.analyzeSyntax({ document: document });
+   
+    const { pipeline } = await import('@xenova/transformers');
+    const pipe = await pipeline('summarization');
+    const summary = await pipe(text);
 
     return {
-      entities: result.entities,
+      entities: result,
       sentimentResult: sentimentResult,
       summaryResult: summaryResult,
+      summary: summary,
     };
   } catch (error) {
     console.error('Error analyzing text:', error);
