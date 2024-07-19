@@ -14,7 +14,7 @@ exports.analyzeText = async function(text) {
    
     const { pipeline } = await import('@xenova/transformers');
     const pipe = await pipeline('summarization');
-    const summary = await pipe(text);
+    const summary = await pipe(text, { min_length: Math.floor(0.01 * text.length), max_length: Math.floor(0.1 * text.length) });
 
     return {
       entities: result,
