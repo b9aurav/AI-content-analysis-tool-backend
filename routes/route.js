@@ -1,7 +1,8 @@
 var express = require("express");
 var router = express.Router();
 var multer = require("multer");
-var serviceController = require("../controllers/serviceController");
+var serviceController = require("../controllers/serviceController.js");
+var authController = require("../controllers/authController.js");
 var path = require("path");
 var fs = require("fs");
 var mammoth = require("mammoth");
@@ -59,6 +60,26 @@ router.post("/upload", upload.single("file"), async (req, res) => {
     });
   } catch (error) {
     res.json({ success: false, message: error.message });
+  }
+});
+
+router.post("/login", async (req, res) => {
+  const details = req.body;
+  try {
+    const token = await authController.login(details);
+    res.json({ success: true, message: "Info: User loggedin successfully", token });
+  } catch (error) {
+    res.json({ success: false, message: "Error: " + error.message });
+  }
+});
+
+router.post("/register", async (req, res) => {
+  const details = req.body;
+  try {
+    await authController.register(details);
+    res.json({ success: true, message: "Info: User registered successfully" });
+  } catch (error) {
+    res.json({ success: false, message: "Error: " + error.message });
   }
 });
 
