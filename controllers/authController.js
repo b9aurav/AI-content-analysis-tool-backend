@@ -7,7 +7,7 @@ exports.login = async function (details) {
     const credentials = Realm.Credentials.emailPassword(details);
     const user = await app.logIn(credentials);
     console.log("Successfully logged in", user.id);
-    return user.accessToken;
+    return { userId: user.id, token: user.accessToken };
   } catch (err) {
     console.error("Failed to log in", err);
     throw new Error("Failed to log in");
@@ -22,4 +22,17 @@ exports.register = async function (details) {
     console.error(err);
     throw new Error(err.message);
   }
-}
+};
+
+exports.logout = async function (userId) {
+  try {
+    const user = app.allUsers[userId];
+    if (user) {
+      await user.logOut();
+      console.log("Successfully logged out", user.id);
+    }
+  } catch (err) {
+    console.error(err);
+    throw new Error(err.message);
+  }
+};
