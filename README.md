@@ -13,6 +13,23 @@
     npm install
     ```
 
+3. **Enable Google Cloud Natural Language API Access from GCP**
+    
+    * Make sure Google Cloud Natural Language API is enabled on your GCP Account.
+    * Go to GCP Console > APIs & Services > Credentials > Create Credentials > Service Account.
+    * Enter Service Account Name and Click on 'Done'.
+    * Come back to Credentials page on GCP Console.
+    * Click on Service Account you just created.
+    * Go to KEYS tab
+    * Click on ADD KEYS > CREATE NEW KEY
+    * Select key type as JSON and click on CREATE
+    * Save JSON Credentials on your local PC.
+    * Set environment variable on local pc
+    ```
+    export GOOGLE_APPLICATION_CREDENTIALS=path-to-your-credentials-json-file
+    ``` 
+    To learn more, checkout official [docs](https://developers.google.com/analytics/devguides/config/admin/v1/quickstart-client-libraries)
+
 3. **Set up environment variables:**
     - Rename .env.example to .env and add mongodb app id to .env file.
     ```
